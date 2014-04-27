@@ -227,8 +227,6 @@ void testApp::draw(){
     
     string nabokov1 = "Phenomenal nature shadows him wherever he goes. Clouds in the staring sky transmit to each other, by means of slow signs, incredibly detailed information regarding him. ";
     vector<string>clouds;
-	
-	
 	string nabokov2 = "His in-most thoughts are discussed at nightfall, in manual alphabet, by darkly gesticulating trees. Pebbles or stains or sun flecks form patterns representing, in some awful way, messages that he must intercept.";
     string nabokov3 = "Everything is a cipher and of everything he is the theme. All around him, there are spies.";
     string nabokov4 = "Some of them are detached observers, like glass surfaces and still pools; others, such as coats in store windows, are prejudiced witnesses, lynchers at heart; others, again (running water, storms), are hysterical to the point of insanity, have a distorted opinion of him, and grotesquely misinterpret his actions. ";
@@ -239,6 +237,7 @@ void testApp::draw(){
     string nabokov9 = "The silhouettes of his blood corpuscles, magnified a million times, flit over vast plains; and still farther away, great mountains of unbearable solidity and height sum up, in terms of granite and groaning firs, the ultimate truth of his being.";
     
     
+    
     ofSetColor(135,0,0);
     logo.drawStringAsShapes(" Signs and Symbols", 370,50);
     //author.drawStringAsShapes(" (by Tian Xu)", 500,68);
@@ -247,24 +246,18 @@ void testApp::draw(){
     
     
     ofPushMatrix();
+    //rotate the screen about the center at all times
     ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2, 0);
     ofRotateX(mouseY);
     ofRotateY(mouseX);
     
-    
-    
-    
-    float deg;
-    int height;
-    height = -60;
-    ofPushMatrix();
-    //ofTranslate(150, 480, 100);
-    
     ofSetColor(135,0,0);
     
-    
-    
-    
+    float deg;
+    float degradians;
+    int height;
+    height = -60;
+    //ofPushMatrix();
     
     x=0;
     vector<int> ycoords6;
@@ -274,12 +267,11 @@ void testApp::draw(){
         ycoords6.push_back(y);
     }
     
-    //char[]c = naboko9.toCharArray();
     //divide into 3 rows
     ofPushMatrix();
     ofTranslate(-400,0,0);
     //ofPushMatrix();
-    ofRotate(50,0,1,0);
+    ofRotate(30,0,1,0);
     for(int i = 0; i<16; i++)
         font6.drawStringAsShapes(nabokov6.substr(i,1), x+i*5, ycoords6[i]);
     //ofPopMatrix();
@@ -299,8 +291,6 @@ void testApp::draw(){
         font6.drawStringAsShapes(nabokov6.substr(i,1), x+(i-36)*5, ycoords6[i]);
     //ofPopMatrix();
     ofPopMatrix();
-    
-    
     
     
     
@@ -342,22 +332,113 @@ void testApp::draw(){
     
     
     ofPushMatrix();
-	ofTranslate(100,0,0);
-	for(int i = 0; i< 100; i++){
-		pair<float, float> position = undulate[i];
+    ofTranslate(100,0,0);
+    for(int i = 0; i< 100; i++){
+        pair<float, float> position = undulate[i];
         float x = position.first;
         float z = position.second;
-		float oscillatex = ofRandom(-1,1);
-		float oscillatey = ofRandom(-1,1);
+        float oscillatex = ofRandom(-1,1);
+        float oscillatey = ofRandom(-1,1);
         
-		ofPushMatrix();
-		font6.drawStringAsShapes(nabokov2.substr(i,1), x+10*i + oscillatex, y + oscillatey);
-		ofPopMatrix();
-	}
+        ofPushMatrix();
+        font6.drawStringAsShapes(nabokov2.substr(i,1), x+10*i + oscillatex, y + oscillatey);
+        ofPopMatrix();
+    }
     ofPopMatrix();
     
     
     
+    
+    
+    //mimicing the word silhouettes
+    ofPushMatrix();
+    ofTranslate(-100, 100, 300);
+    ofRotate(-40,0,1,0);
+    ofSetColor(250,0,0);
+    font6.drawStringAsShapes("silhouettes", 0,0);
+    ofPushMatrix();
+    ofRotate(90,1,0,0);
+    ofSetColor(135,0,0);
+    font6.drawStringAsShapes("silhouettes", 0,0);
+    ofPopMatrix();
+    ofPopMatrix();
+    
+    
+    
+    //flit over vast plains
+    
+    
+    //everything is a cipher and and of everything he is the theme ( 60 characters)
+    int radius = 20;
+    deg = 0;
+    float translatex, translatey;
+    ofPushMatrix();
+    //ofTranslate(-100,200,0);
+    ofPushMatrix();
+    ofRotate(-ofGetElapsedTimef()*.6 * RAD_TO_DEG, 0,0,1);
+    for(int i = 0; i<10; i++){
+        ofPushMatrix();
+        
+        deg = 360/10;
+        deg *= i;
+        degradians = deg * pi / 180;		//why do we want this in radians?
+        
+        translatex = radius*cos(degradians);
+        translatey = -radius*sin(degradians);
+        
+        ofTranslate(translatex, translatey);
+        ofRotate(90-deg,0,0,1);
+        
+        font6.drawStringAsShapes(nabokov3.substr(i,1), 0,0);
+        
+        ofPopMatrix();
+    }
+    ofPopMatrix();
+    
+    
+    ofPushMatrix();
+    ofRotate(ofGetElapsedTimef()*.3 * RAD_TO_DEG, 0,0,1);
+    for(int i = 10; i<30; i++){
+        ofPushMatrix();
+        
+        deg = 360/20;
+        deg *= i;
+        degradians = deg * pi / 180;
+        
+        translatex = (radius+10)*cos(degradians);//*sqrt(2);
+        translatey = -(radius+10)*sin(degradians);//*sqrt(2);
+        
+        ofTranslate(translatex, translatey);
+        ofRotate(90-deg,0,0,1);
+        
+        font6.drawStringAsShapes(nabokov3.substr(i,1), 0,0);
+        
+        ofPopMatrix();
+    }
+    ofPopMatrix();
+    
+    
+    ofPushMatrix();
+    ofRotate(-ofGetElapsedTimef()* 1 * RAD_TO_DEG-270, 0,0,1);
+    for(int i = 30; i<60; i++){
+        ofPushMatrix();
+        
+        deg = 360/30;
+        deg *= i;
+        degradians = deg * pi / 180;
+        
+        translatex = (radius+20)*cos(degradians);//*sqrt(2);
+        translatey = -(radius+20)*sin(degradians);//*sqrt(2);
+        
+        ofTranslate(translatex, translatey);
+        ofRotate(90-deg,0,0,1);
+        
+        font6.drawStringAsShapes(nabokov3.substr(i,1), 0,0);
+        
+        ofPopMatrix();
+    }
+    ofPopMatrix();
+    ofPopMatrix();
     
     
     
@@ -394,59 +475,59 @@ void testApp::draw(){
         z2 = (x-30)*(x-60)*(x-90)*(x-140)*(x-200)*(x-250)*.000000001;
         z2coords1.push_back(z2);
         
-		z3 = (x-30)*(x-60)*(x-90)*(x-140)*(x-200)*(x-250)*.000000001;
-		z3coords1.push_back(z3);
+        z3 = (x-30)*(x-60)*(x-90)*(x-140)*(x-200)*(x-250)*.000000001;
+        z3coords1.push_back(z3);
         //cout<<"z2 coordinate is "<<z2<<endl;
-		//z2 =
-		//z2, z3, z4 respectively...
+        //z2 =
+        //z2, z3, z4 respectively...
     }
     
     
     x=10;
+    
+    ofPushMatrix();
     ofTranslate(0,100,0);
     
-	ofPushMatrix();
+    ofPushMatrix();
     //ofRotate(60,0,1,0);
     for(int i=5; i<160; i++){
-        //cout<<"the z coord is "<<zcoords1[i]<<endl;
-        ofPushMatrix();
+        //ofPushMatrix();
         //ofRotate(40,0,1,0);
-        
-		font7.drawStringAsShapes(nabokov9.substr(i,1), x+3*i, zcoords1[i]);
-        ofPopMatrix();
-	}
-	ofPopMatrix();
+        font7.drawStringAsShapes(nabokov9.substr(i,1), x+3*i, zcoords1[i]);
+        //ofPopMatrix();
+    }
+    ofPopMatrix();
     k++;
     
     ofRotate(40,0,1,0);
     ofPushMatrix();
     for(int i = 5; i<160; i++){
-        ofPushMatrix();
+        //ofPushMatrix();
         //ofRotate(100,0,1,0);
         font6.drawStringAsShapes(nabokov9.substr(i,1), x+2*i, z2coords1[i]);
-        ofPopMatrix();
-	}
+        //ofPopMatrix();
+    }
     ofPopMatrix();
-	
     
-	ofRotate(50,0,1,0);
+    
+    ofRotate(50,0,1,0);
     ofPushMatrix();
-	for(int i = 0; i< 160; i++){
-		font6.drawStringAsShapes(nabokov9.substr(i,1), x+2*i, z3coords1[i]);
-	}
-	ofPopMatrix();
+    for(int i = 0; i< 160; i++){
+        font6.drawStringAsShapes(nabokov9.substr(i,1), x+2*i, z3coords1[i]);
+    }
+    ofPopMatrix();
     
     
-	
+    
     ofPushMatrix();
     //ofSetLineWidth(3);
     //ofNoFill();
     ofBezier(10,10,55,15,15,210,100,200);
     ofPopMatrix();
+    ofPopMatrix();
     
     
-    
-    
+    ofPopMatrix();
     
     
     
@@ -465,23 +546,23 @@ void testApp::draw(){
      */
     
     
-	
-	if (!bPointLight) pointLight.disable();
-	if (!bSpotLight) spotLight.disable();
-	if (!bDirLight) directionalLight.disable();
-	
+    
+    if (!bPointLight) pointLight.disable();
+    if (!bSpotLight) spotLight.disable();
+    if (!bDirLight) directionalLight.disable();
+    
     material.end();
-	// turn off lighting //
+    // turn off lighting //
     ofDisableLighting();
     
-	ofSetColor( pointLight.getDiffuseColor() );
-	if(bPointLight) pointLight.draw();
+    ofSetColor( pointLight.getDiffuseColor() );
+    if(bPointLight) pointLight.draw();
     
     ofSetColor(255, 255, 255);
-	ofSetColor( spotLight.getDiffuseColor() );
-	if(bSpotLight) spotLight.draw();
+    ofSetColor( spotLight.getDiffuseColor() );
+    if(bSpotLight) spotLight.draw();
 	
-    ofPopMatrix();
+    
     
     
 	/*ofDrawBitmapString("Point Light On (1) : "+ofToString(bPointLight) +"\n"+

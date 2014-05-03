@@ -18,6 +18,9 @@ int flipx, flipy;
 int k;
 vp undulate;
 
+vector<ofTrueTypeFont> fonts;
+
+
 void testApp::setup(){
     k = 0;
     cloudmovex = 0;
@@ -248,8 +251,8 @@ void testApp::draw(){
     ofPushMatrix();
     //rotate the screen about the center at all times
     ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2, 0);
-    ofRotateX(mouseY);
-    ofRotateY(mouseX);
+    //ofRotateX(mouseY);
+    //ofRotateY(mouseX);
     
     ofSetColor(135,0,0);
     
@@ -365,13 +368,106 @@ void testApp::draw(){
     
     
     
-    //flit over vast plains
+    
+    //the torrents| of wild scandal| increase in |volume and| volubility (62 characters)
+    //we will build a tornado like object, spinning about a spline in constant rotation
+    string tor = "torrents";
+    radius = 2;
+    float translatex, translatey;
+    
+    int numsplines = 5;
+    vector<int> spline;
+    ofPushMatrix();
+    ofTranslate(-200,-200,0);
+    
+    //draw the rotating tornado and now spin the entire spline as well so it looks like it's actually moving
+    ofPushMatrix();
+    //ofRotate(ofGetElapsedTimef()*.3 * RAD_TO_DEG, 0,1,0);
+    
+    //first construct some points along the spline
+    /*for(int i = 0; i < numsplines; i++){
+     int x = i*3;
+     //using y = x^3 + 100
+     int y = ((x/1.5-5)*(x/1.5-5)*(x/1.5-5) + 100)*.5;
+     spline.push_back(x);
+     spline.push_back(y);		//forget pair not really that much easier
+     }*/
+    
+    float xx, yy;
+    xx = 1;
+    yy = ((xx/1.5-5)*(xx/1.5-5)*(xx/1.5-5) + 100)*.5;
+    spline.push_back(xx);
+    spline.push_back(yy);
+    
+    xx = 3;
+    yy = ((xx/1.5-5)*(xx/1.5-5)*(xx/1.5-5) + 100)*.5;
+    spline.push_back(xx);
+    spline.push_back(yy);
+    
+    /*xx = 6;
+     yy = ((xx/1.5-5)*(xx/1.5-5)*(xx/1.5-5) + 100)*.5;
+     spline.push_back(xx);
+     spline.push_back(yy);*/
+    
+    xx = 9;
+    yy = ((xx/1.5-5)*(xx/1.5-5)*(xx/1.5-5) + 100)*.5;
+    spline.push_back(xx);
+    spline.push_back(yy);
+    
+    xx = 11;
+    yy = ((xx/1.5-5)*(xx/1.5-5)*(xx/1.5-5) + 100)*.5;
+    spline.push_back(xx);
+    spline.push_back(yy);
+    
+    xx = 13;
+    yy = ((xx/1.5-5)*(xx/1.5-5)*(xx/1.5-5) + 100)*.5;
+    spline.push_back(xx);
+    spline.push_back(yy);
+    
+    
+    //now plot them
+    for(int j = 0; j <numsplines; j++) {
+        //we might need to shift these since they start at -2
+        int x = spline[2*j];
+        int y = spline[2*j+1];
+        
+        ofPushMatrix();
+        ofTranslate(x,y,0);		//shifting along the spline, so now that's our center, that's basically (0,0)
+        ofRect(0,0,4,4);
+        cout<<"x is"<<x<<"  and y is "<<y<<endl;
+        /*ofPushMatrix();
+         ofRotate(ofGetElapsedTimef()*.3 * RAD_TO_DEG, 0,0,1);
+         for(int i = 0; i<8; i++){
+         ofPushMatrix();
+         deg = 360/8;
+         deg *= i;
+         deg = deg * pi / 180;
+         
+         translatex = (radius+2*j)*cos(deg);//*sqrt(2);
+         translatey = -(radius+2*j)*sin(deg);//*sqrt(2);
+         
+         ofTranslate(translatex, translatey);
+         ofRotate(ofGetElapsedTimef()* .3 * RAD_TO_DEG,0,0,1);
+         
+         //start at size 2 font
+         fonts[j+2].drawStringAsShapes(tor.substr(i,1), 0,0);
+         ofPopMatrix();
+         }
+         ofPopMatrix();*/
+        ofPopMatrix();
+    }
+    ofPopMatrix();
+    ofPopMatrix();
+    
+    
+    
+    
+    
     
     
     //everything is a cipher and and of everything he is the theme ( 60 characters)
     int radius = 20;
     deg = 0;
-    float translatex, translatey;
     ofPushMatrix();
     //ofTranslate(-100,200,0);
     ofPushMatrix();

@@ -100,6 +100,35 @@ void testApp::setup(){
     
     
     
+    font1.loadFont("type/verdana.ttf", 1, true, false, true, 0.1, 102);
+	font2.loadFont("type/verdana.ttf", 2, true, false, true, 0.1, 102);
+	font3.loadFont("type/verdana.ttf", 3, true, false, true, 0.1, 102);
+	font4.loadFont("type/verdana.ttf", 4, true, false, true, 0.1, 102);
+	font5.loadFont("type/verdana.ttf", 5, true, false, true, 0.1, 102);
+    font6.loadFont("type/verdana.ttf", 6, true, false, true, 0.1, 102);
+    font7.loadFont("type/verdana.ttf", 7, true, false, true, 0.1, 102);
+    font8.loadFont("type/verdana.ttf", 8, true, false, true, 0.1, 102);
+	font9.loadFont("type/verdana.ttf", 9, true, false, true, 0.1, 102);
+	font10.loadFont("type/verdana.ttf", 10, true, false, true, 0.1, 102);
+	font11.loadFont("type/verdana.ttf", 11, true, false, true, 0.1, 102);
+	font12.loadFont("type/verdana.ttf", 12, true, false, true, 0.1, 102);
+	font13.loadFont("type/verdana.ttf", 13, true, false, true, 0.1, 102);
+	font14.loadFont("type/verdana.ttf", 14, true, false, true, 0.1, 102);
+	font15.loadFont("type/verdana.ttf", 15, true, false, true, 0.1, 102);
+    
+	fonts.push_back(font1);
+	fonts.push_back(font2);
+	fonts.push_back(font3);
+	fonts.push_back(font4);
+	fonts.push_back(font5);
+	fonts.push_back(font6);
+	fonts.push_back(font7);
+	fonts.push_back(font8);
+	fonts.push_back(font9);
+	fonts.push_back(font10);
+	fonts.push_back(font11);
+	fonts.push_back(font12);
+    
     
     
     
@@ -251,8 +280,8 @@ void testApp::draw(){
     ofPushMatrix();
     //rotate the screen about the center at all times
     ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2, 0);
-    //ofRotateX(mouseY);
-    //ofRotateY(mouseX);
+    ofRotateX(mouseY);
+    ofRotateY(mouseX);
     
     ofSetColor(135,0,0);
     
@@ -371,7 +400,8 @@ void testApp::draw(){
     
     //the torrents| of wild scandal| increase in |volume and| volubility (62 characters)
     //we will build a tornado like object, spinning about a spline in constant rotation
-    string tor = "torrents";
+    string tor = "stnerrot";
+    //string tor = "torrents";
     radius = 2;
     float translatex, translatey;
     
@@ -382,7 +412,7 @@ void testApp::draw(){
     
     //draw the rotating tornado and now spin the entire spline as well so it looks like it's actually moving
     ofPushMatrix();
-    //ofRotate(ofGetElapsedTimef()*.3 * RAD_TO_DEG, 0,1,0);
+    ofRotate(-ofGetElapsedTimef() * 1.2 * RAD_TO_DEG, 0,1,0);
     
     //first construct some points along the spline
     /*for(int i = 0; i < numsplines; i++){
@@ -433,27 +463,27 @@ void testApp::draw(){
         
         ofPushMatrix();
         ofTranslate(x,y,0);		//shifting along the spline, so now that's our center, that's basically (0,0)
-        ofRect(0,0,4,4);
-        cout<<"x is"<<x<<"  and y is "<<y<<endl;
-        /*ofPushMatrix();
-         ofRotate(ofGetElapsedTimef()*.3 * RAD_TO_DEG, 0,0,1);
-         for(int i = 0; i<8; i++){
-         ofPushMatrix();
-         deg = 360/8;
-         deg *= i;
-         deg = deg * pi / 180;
-         
-         translatex = (radius+2*j)*cos(deg);//*sqrt(2);
-         translatey = -(radius+2*j)*sin(deg);//*sqrt(2);
-         
-         ofTranslate(translatex, translatey);
-         ofRotate(ofGetElapsedTimef()* .3 * RAD_TO_DEG,0,0,1);
-         
-         //start at size 2 font
-         fonts[j+2].drawStringAsShapes(tor.substr(i,1), 0,0);
-         ofPopMatrix();
-         }
-         ofPopMatrix();*/
+        //ofRect(0,0,2,2);
+        //cout<<"x is"<<x<<"  and y is "<<y<<endl;
+        ofPushMatrix();
+        //ofRotate(-ofGetElapsedTimef()*4 * RAD_TO_DEG, 0,1,0);
+        for(int i = 0; i<8; i++){
+            ofPushMatrix();
+            deg = 360/8;
+            deg *= i;
+            degradians = deg * pi / 180;
+            
+            translatex = (radius+2*(numsplines-j))*cos(degradians);//*sqrt(2);
+            translatey = (radius+2*(numsplines-j))*sin(degradians);//*sqrt(2);
+            
+            ofTranslate(translatex, 0,translatey);
+            ofRotate(-90-deg+180,0,1,0);
+            
+            //start at size 2 font
+            fonts[4+(numsplines-j)].drawStringAsShapes(tor.substr(i,1), 0,0);
+            ofPopMatrix();
+        }
+        ofPopMatrix();
         ofPopMatrix();
     }
     ofPopMatrix();

@@ -20,8 +20,10 @@ vp undulate;
 
 vector<ofTrueTypeFont> fonts;
 
+ofTrueTypeFont glassfont;
 
 void testApp::setup(){
+    
     k = 0;
     cloudmovex = 0;
     cloudmovey = 0;
@@ -29,7 +31,7 @@ void testApp::setup(){
     flipy = 1;
 	//random directions to simulate cloud movement
     
-    
+    ofEnableAlphaBlending();
     ofSetWindowShape(1400,1000);
     
     
@@ -50,8 +52,8 @@ void testApp::setup(){
     //font.loadFont("sans-serif", 30);
     
     
-    font6.loadFont("type/verdana.ttf", 8, true, false, true, 0.1, 102);
-    font7.loadFont("type/verdana.ttf", 8, true, false, true, 0.1, 102);
+    //font6.loadFont("type/verdana.ttf", 8, true, false, true, 0.1, 102);
+    //font7.loadFont("type/verdana.ttf", 8, true, false, true, 0.1, 102);
     
     
     for(int i = 0; i<100; i++){
@@ -99,7 +101,22 @@ void testApp::setup(){
     
     
     
+    glassfont.loadFont("type/verdana.ttf",20, true, false, true, 0.4, 72);
+#ifdef TARGET_OPENGLES
+	shader.load("shaders_gles/noise.vert","shaders_gles/noise.frag");
+#else
+	if(ofGetGLProgrammableRenderer()){
+		shader.load("shaders_gl3/noise.vert", "shaders_gl3/noise.frag");
+	}else{
+		shader.load("shaders/noise.vert", "shaders/noise.frag");
+	}
+#endif
     
+	doShader = true;
+    
+    
+    
+    //load up the various fonts with index corresponding to font size
     font1.loadFont("type/verdana.ttf", 1, true, false, true, 0.1, 102);
 	font2.loadFont("type/verdana.ttf", 2, true, false, true, 0.1, 102);
 	font3.loadFont("type/verdana.ttf", 3, true, false, true, 0.1, 102);
@@ -309,16 +326,16 @@ void testApp::draw(){
     //ofPopMatrix();
     
     //ofTranslate(-400,0,0);
-    ofTranslate(10,10,30);
+    ofTranslate(10,10,10);
     //ofPushMatrix();
-    ofRotate(10,0,1,0);
+    //ofRotate(10,0,1,0);
     for(int i = 16; i<35; i++)
         font6.drawStringAsShapes(nabokov6.substr(i,1), x+(i-17)*5, ycoords6[i]);
     //ofPopMatrix();
     
-    ofTranslate(10,10,20);
+    ofTranslate(10,10,10);
     //ofPushMatrix();
-    ofRotate(10,0,1,0);
+    //ofRotate(10,0,1,0);
     for(int i = 35; i<51; i++)
         font6.drawStringAsShapes(nabokov6.substr(i,1), x+(i-36)*5, ycoords6[i]);
     //ofPopMatrix();
@@ -394,6 +411,33 @@ void testApp::draw(){
     font6.drawStringAsShapes("silhouettes", 0,0);
     ofPopMatrix();
     ofPopMatrix();
+    
+    
+    
+    
+    /*##########################################################
+     like glass surfaces and still pools, using our basic shader;
+     ##########################################################*/
+    if( doShader ){
+        shader.begin();
+        //we want to pass in some varrying values to animate our type / color
+        shader.setUniform1f("timeValX", ofGetElapsedTimef() * 0.1 );
+        shader.setUniform1f("timeValY", -ofGetElapsedTimef() * 0.18 );
+        
+        //we also pass in the mouse position
+        //we have to transform the coords to what the shader is expecting which is 0,0 in the center and y axis flipped.
+        shader.setUniform2f("mouse", mouseX-ofGetWidth()/2, ofGetHeight()/2-mouseY );
+        
+    }
+    ofPushMatrix();
+    ofTranslate(-200,-300,0);
+    ofRotate(40,1,0,0);
+    glassfont.drawStringAsShapes("like glass surfaces and still pools", 90, 260);
+    ofPopMatrix();
+    if( doShader ){
+        shader.end();
+    }
+    
     
     
     

@@ -19,6 +19,9 @@ int k;
 vp undulate;
 
 vector<ofTrueTypeFont> fonts;
+vector<float> alphabet;
+
+
 
 ofTrueTypeFont glassfont;
 
@@ -101,7 +104,7 @@ void testApp::setup(){
     
     
     
-    glassfont.loadFont("type/verdana.ttf",20, true, false, true, 0.4, 72);
+    glassfont.loadFont("type/verdana.ttf",25, true, false, true, 0.4, 72);
 #ifdef TARGET_OPENGLES
 	shader.load("shaders_gles/noise.vert","shaders_gles/noise.frag");
 #else
@@ -149,6 +152,12 @@ void testApp::setup(){
     
     
     
+    
+    //random degrees of rotation for the alphabet
+	for(int i = 0; i<19; i++){
+		float deg = ofRandom(-70,70);
+		alphabet.push_back(deg);
+	}
     
     
     
@@ -316,7 +325,37 @@ void testApp::draw(){
         ycoords6.push_back(y);
     }
     
-    //divide into 3 rows
+    
+    
+    /*###########################
+     in manual alphabet (19 chars)
+     ###########################*/
+    string alpha = "in manual alphabet";
+    ofPushMatrix();
+    ofTranslate(-100,200,0);
+    for (int i = 0; i < 18; i++){
+        ofTranslate(20,0,0);
+        if((i!=2) && (i!=9)){
+            ofPushMatrix();
+            ofRotate(alphabet[i], 0, 0, 1);
+            ofEnableAlphaBlending();
+            ofSetColor(135,0,0);
+            ofRect(0,0,15,15);
+            ofTranslate(5,12);
+            ofSetColor(0,0,0);
+            font8.drawStringAsShapes(alpha.substr(i,1),0,0);
+            ofPopMatrix();
+        }
+    }
+    ofPopMatrix();
+    ofSetColor(135,0,0);
+    
+    
+    
+    /*###################################################
+     "The very air he exhales is indexed and filed away.";
+     ###################################################*/
+    
     ofPushMatrix();
     ofTranslate(-400,0,0);
     //ofPushMatrix();
@@ -345,7 +384,10 @@ void testApp::draw(){
     
     
     
-    //cloud like movement
+    /*#################
+     cloud like movement
+     #################*/
+    
     vector<int> ycoords2;
     vector<int> zcoords2;
     ofPushMatrix();
@@ -379,9 +421,12 @@ void testApp::draw(){
     
     
     
+    /*##################
+     undulation of things
+     ##################*/
     
     ofPushMatrix();
-    ofTranslate(100,0,0);
+    ofTranslate(-500,300,0);
     for(int i = 0; i< 100; i++){
         pair<float, float> position = undulate[i];
         float x = position.first;
@@ -399,7 +444,10 @@ void testApp::draw(){
     
     
     
-    //mimicing the word silhouettes
+    /*###########################
+     mimicing the word silhouettes
+     ###########################*/
+    
     ofPushMatrix();
     ofTranslate(-100, 100, 300);
     ofRotate(-40,0,1,0);
@@ -418,6 +466,7 @@ void testApp::draw(){
     /*##########################################################
      like glass surfaces and still pools, using our basic shader;
      ##########################################################*/
+    
     if( doShader ){
         shader.begin();
         //we want to pass in some varrying values to animate our type / color
@@ -442,7 +491,10 @@ void testApp::draw(){
     
     
     
-    //the torrents| of wild scandal| increase in |volume and| volubility (62 characters)
+    /*################################################################################
+     the torrents| of wild scandal| increase in |volume and| volubility (62 characters)
+     ################################################################################*/
+    
     //we will build a tornado like object, spinning about a spline in constant rotation
     string tor = "stnerrot";
     //string tor = "torrents";
@@ -539,7 +591,10 @@ void testApp::draw(){
     
     
     
-    //everything is a cipher and and of everything he is the theme ( 60 characters)
+    /*###########################################################################
+     everything is a cipher and and of everything he is the theme ( 60 characters)
+     ###########################################################################*/
+    
     int radius = 20;
     deg = 0;
     ofPushMatrix();
@@ -614,6 +669,10 @@ void testApp::draw(){
     
     
     
+    
+    /*###############################################################################
+     and still farther away, great mountains of unbearable solidity and height sum up
+     ###############################################################################*/
     
     //so x^2/a^2 + y^2/b^2 + z^2/c^2 = 1; typical ellipsoid
     //x^2/a^2 + y^2/b^2    ; typical ellipse
